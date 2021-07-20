@@ -21,8 +21,8 @@ public class BasicTest {
 
     private static final String APP = "/Users/lindsaywalker/Documents/Example_Tests/Android.SauceLabs.Mobile.Sample.app.2.7.0.apk";
     private static final String APPIUM = "http://localhost:4723/wd/hub";
-//    private IOSDriver driver;
-    private static ThreadLocal<IOSDriver> iosDriver = new ThreadLocal<IOSDriver>();
+    private IOSDriver driver;
+//    private static ThreadLocal<IOSDriver> iosDriver = new ThreadLocal<IOSDriver>();
 
     String usernameID = "test-Username";
     String passwordID = "test-Password";
@@ -52,7 +52,8 @@ public class BasicTest {
 //        capabilities.setCapability("name", methodName);
 
         try {
-            iosDriver.set(new IOSDriver(url, capabilities));
+//           new IOSDriver(url, capabilities);
+            driver = new IOSDriver(url, capabilities);
         } catch (Exception e) {
             System.out.println("*** Problem creating the iOS driver " + e.getMessage());
             throw new RuntimeException(e);
@@ -66,15 +67,12 @@ public class BasicTest {
       //  ((JavascriptExecutor)getiosDriver()).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
 //        getiosDriver().quit();
     public void tearDown() {
-        if (getiosDriver() != null) {
-            getiosDriver().quit();
+//        if (getiosDriver() != null) {
+//            getiosDriver().quit();
+        if (driver != null) {
+            driver.quit();
         }
     }
-
-    public  IOSDriver getiosDriver() {
-        return iosDriver.get();
-    }
-
     @Test
     public void loginToSwagLabsTestValid() {
         System.out.println("Sauce - Start loginToSwagLabsTestValid test");
@@ -96,7 +94,7 @@ public class BasicTest {
     }
 
     public void login(String user, String pass){
-        IOSDriver driver = getiosDriver();
+//        IOSDriver driver = getiosDriver();
 
         WebElement usernameEdit = (WebElement) driver.findElementByAccessibilityId(usernameID);
 
@@ -112,7 +110,7 @@ public class BasicTest {
     }
 
     public boolean isOnProductsPage() {
-        IOSDriver driver = getiosDriver();
+//        IOSDriver driver = getiosDriver();
         return driver.findElement(ProductTitle).isDisplayed();
     }
 
