@@ -1,44 +1,43 @@
-package tests.EmuSim;
+package tests;
 
 
-import io.appium.java_client.android.AndroidDriver;
+//import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+//import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+//import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
-import org.testng.ITestResult;
+//import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+//import java.util.List;
 
 public class BasicTest {
 
     private static final String APP = "/Users/lindsaywalker/Documents/Example_Tests/Android.SauceLabs.Mobile.Sample.app.2.7.0.apk";
     private static final String APPIUM = "http://localhost:4723/wd/hub";
-    private IOSDriver driver;
-//    private static ThreadLocal<IOSDriver> iosDriver = new ThreadLocal<IOSDriver>();
+//    private IOSDriver driver;
+    private static ThreadLocal<IOSDriver> iosDriver = new ThreadLocal<IOSDriver>();
 
     String usernameID = "test-Username";
     String passwordID = "test-Password";
     String submitButtonID = "test-LOGIN";
-    By ProductTitle = By.xpath("//XCUIElementTypeStaticText[@name=\"PRODUCTS\"]\n");
+    By ProductTitle = By.xpath("//XCUIElementTypeStaticText[@name=\"PRODUCTS\"]");
 
 
     @BeforeMethod
        public void setup(Method method) throws MalformedURLException {
-
         System.out.println("Local iOS Native - BeforeMethod hook");
 //        String username = System.getenv("SAUCE_USERNAME");
 //        String accesskey = System.getenv("SAUCE_ACCESS_KEY");
 //        String sauceUrl = "@ondemand.us-west-1.saucelabs.com:443";
 //        String SAUCE_REMOTE_URL = "https://" + username + ":" + accesskey + sauceUrl +"/wd/hub";
-        String appName = "/Users/lindsaywalker/Documents/Example_Tests/iOS.Simulator.SauceLabs.Mobile.Sample.app.2.7.1.zip"; // updated for local
+        String appName = "/Users/lindsaywalker/Git/Example_Tests/iOS.Simulator.SauceLabs.Mobile.Sample.app.2.7.1.zip"; // updated for local
 
 //        String methodName = method.getName();
 //        URL url = new URL(SAUCE_REMOTE_URL);
@@ -53,7 +52,7 @@ public class BasicTest {
 //        capabilities.setCapability("name", methodName);
 
         try {
-            driver.set(new IOSDriver(url, capabilities));
+            iosDriver.set(new IOSDriver(url, capabilities));
         } catch (Exception e) {
             System.out.println("*** Problem creating the iOS driver " + e.getMessage());
             throw new RuntimeException(e);
@@ -67,8 +66,8 @@ public class BasicTest {
       //  ((JavascriptExecutor)getiosDriver()).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
 //        getiosDriver().quit();
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
+        if (getiosDriver() != null) {
+            getiosDriver().quit();
         }
     }
 
@@ -86,12 +85,12 @@ public class BasicTest {
 
     }
 
-    @Test
+//    @Test
     public void loginToSwagLabsTestValid2() {
         System.out.println("Sauce - Start loginToSwagLabsTestValid2 test");
         login("standard_user", "secret_sauce");
 
-        // Verificsation
+        // Verification
         Assert.assertTrue(isOnProductsPage());
 
     }
